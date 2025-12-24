@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/homeContainer"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal"
+    android:gravity="center_vertical"
+    android:padding="@dimen/home_padding"
+    android:background="@drawable/generic_button_background"
+    app:layout_constraintStart_toStartOf="parent"
+    app:layout_constraintTop_toTopOf="parent">
+
+    <ImageButton
+        android:id="@+id/homeImageButton"
+        android:layout_width="@dimen/home_button_layout"
+        android:layout_height="@dimen/home_button_layout"
+        android:src="@drawable/ic_home"
+        android:contentDescription="@string/home_button" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/home_button"
+        android:textColor="@color/white"
+        android:textSize="@dimen/home_text_size" />
+</LinearLayout>

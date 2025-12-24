@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/background_color"
+    android:paddingTop="16dp"
+    android:paddingBottom="0dp"
+    android:fitsSystemWindows="true"
+    android:id="@+id/constraintLayoutView">
+
+    <!-- 全画面共通の左右余白ガイドライン（guideline_start/guideline_end） -->
+    <include layout="@layout/guideline_common" />
+
+    <LinearLayout
+        android:id="@+id/formArea"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:gravity="center"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="@id/guideline_start"
+        app:layout_constraintEnd_toEndOf="@id/guideline_end"
+        app:layout_constraintVertical_bias="0.5">
+
+        <TextView
+            android:id="@+id/input_key_title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/inputEncryptionKey"
+            android:textSize="@dimen/title_text_size"
+            android:textColor="#3366FF"
+            android:paddingVertical="8dp"
+            android:gravity="start" />
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/inputAreaLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:errorEnabled="true">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/input_area"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/inputEncryptionKeyArea"
+                android:inputType="text|textNoSuggestions"
+                android:minHeight="@dimen/input_key_min_height"
+                android:gravity="top"
+                android:background="@color/input_background" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <LinearLayout
+            android:id="@+id/buttonArea"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:gravity="center"
+            android:layout_marginTop="8dp">
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/cameraRollButton"
+                style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:minWidth="250dp"
+                android:maxWidth="250dp"
+                android:layout_marginBottom="8dp"
+                android:padding="16dp"
+                android:text="@string/cameraRollFromSelect"
+                android:textColor="@color/black"
+                android:textSize="18sp"
+                android:backgroundTint="@color/button_background"
+                app:cornerRadius="@dimen/button_corner_radius"
+                app:strokeColor="@color/black"
+                app:strokeWidth="@dimen/button_stroke_width"
+                android:stateListAnimator="@animator/button_state_list_animator" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/cameraButton"
+                style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:minWidth="250dp"
+                android:maxWidth="250dp"
+                android:padding="16dp"
+                android:text="@string/launchCamera"
+                android:textColor="@color/black"
+                android:textSize="18sp"
+                android:backgroundTint="@color/button_background"
+                app:cornerRadius="@dimen/button_corner_radius"
+                app:strokeColor="@color/black"
+                app:strokeWidth="@dimen/button_stroke_width"
+                android:stateListAnimator="@animator/button_state_list_animator" />
+        </LinearLayout>
+    </LinearLayout>
+
+    <!--  バナー広告  -->
+    <FrameLayout
+        android:id="@+id/adViewContainer"
+        android:layout_width="0dp"
+        android:layout_height="60dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="@id/guideline_start"
+        app:layout_constraintEnd_toEndOf="@id/guideline_end" />
+
+    <!-- ホームに戻るボタンを最前面に固定 -->
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:clickable="false"
+        android:focusable="false">
+
+        <include
+            android:id="@+id/homeContainer"
+            layout="@layout/back_home_button_layout"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="top|start"
+            android:layout_margin="@dimen/button_margin"
+            android:elevation="@dimen/button_elevation" />
+
+    </FrameLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>
