@@ -8,11 +8,11 @@ android {
     compileSdk = 35
 
     defaultConfig {
-        applicationId = "com.nankaworks.cryptomessage"
+        applicationId = "com.works.coreconnectioncounter"
         minSdk = 24
         targetSdk = 35
-        versionCode = 20
-        versionName = "20.0"
+        versionCode = 1
+        versionName = "1.0"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
 
@@ -44,8 +44,6 @@ android {
 }
 
 dependencies {
-    implementation("com.google.zxing:core:3.4.1")
-    implementation("com.journeyapps:zxing-android-embedded:4.2.0")
     implementation("com.google.android.material:material:1.5.0")
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.appcompat)
@@ -53,7 +51,6 @@ dependencies {
     implementation(libs.androidx.activity)
     implementation(libs.androidx.constraintlayout)
     implementation(libs.dotsindicator)
-    implementation(libs.barcode.scanning)
     implementation(libs.review)
     implementation(libs.review.ktx)
     testImplementation(libs.junit)

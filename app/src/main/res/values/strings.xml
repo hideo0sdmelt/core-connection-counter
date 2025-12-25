@@ -10,6 +10,4 @@
     <!-- プレースホルダー -->
     <string name="inputEncryptTextArea">例）次の会議の内容は…</string>
     <string name="inputEncryptionKeyArea">例）KEY1234567</string>
-    <string name="cameraRollFromSelect">カメラロールから選択！</string>
-    <string name="launchCamera">カメラを起動！</string>
 </resources>

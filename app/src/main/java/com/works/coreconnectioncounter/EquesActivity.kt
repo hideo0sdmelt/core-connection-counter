@@ -10,37 +10,37 @@ import androidx.appcompat.app.AppCompatActivity
 import com.google.android.material.button.MaterialButton
 
 class EquesActivity : AppCompatActivity() {
+    companion object {
+        private const val COUNTER_COUNT = 6
+        private const val SPINNER_AFFECTED_COUNT = 3  // Spinnerが影響するのは上段3つ
+    }
+
     private lateinit var spinner1: Spinner
     private lateinit var spinner2: Spinner
 
     private lateinit var numberTexts: Array<TextView>
-    private lateinit var bonusTexts: Array<TextView>  // 加算値表示用
+    private lateinit var bonusTexts: Array<TextView>
     private lateinit var plusButtons: Array<MaterialButton>
     private lateinit var minusButtons: Array<MaterialButton>
-    private val currentNumbers = IntArray(3) { 0 }
+    private val currentNumbers = IntArray(COUNTER_COUNT) { 0 }
+    private val currentBonus = IntArray(SPINNER_AFFECTED_COUNT) { 0 }
 
-    // 現在適用中の加算値を保持
-    private val currentBonus = IntArray(3) { 0 }
-
-    // Spinner1の各オプションに対応する加算値 [数字1, 数字2, 数字3]
+    // Spinner1の各オプションに対応する加算値（上段3つ分）
     private val spinner1Values = arrayOf(
-        intArrayOf(5, 3, 1),     // オプション1選択時
-        intArrayOf(10, 6, 2),    // オプション2選択時
-        intArrayOf(15, 9, 3)     // オプション3選択時
+        intArrayOf(5, 3, 1),
+        intArrayOf(10, 6, 2),
+        intArrayOf(15, 9, 3)
     )
 
-    // Spinner2の各オプションに対応する加算値 [数字1, 数字2, 数字3]
+    // Spinner2の各オプションに対応する加算値（上段3つ分）
     private val spinner2Values = arrayOf(
-        intArrayOf(1, 1, 1),     // 選択A選択時
-        intArrayOf(2, 2, 2),     // 選択B選択時
-        intArrayOf(3, 3, 3)      // 選択C選択時
+        intArrayOf(1, 1, 1),
+        intArrayOf(2, 2, 2),
+        intArrayOf(3, 3, 3)
     )
 
-    // 前回選択していたインデックスを保持
     private var previousSpinner1Index = 0
     private var previousSpinner2Index = 0
-
-    // 初回選択をスキップするフラグ
     private var isFirstSelection1 = true
     private var isFirstSelection2 = true
 
@@ -51,24 +51,28 @@ class EquesActivity : AppCompatActivity() {
         spinner1 = findViewById(R.id.spinner1)
         spinner2 = findViewById(R.id.spinner2)
 
-        val includeIds = arrayOf(R.id.numberSet1, R.id.numberSet2, R.id.numberSet3)
+        // ✅ 6つ全部定義
+        val includeIds = arrayOf(
+            R.id.numberSet1, R.id.numberSet2, R.id.numberSet3,
+            R.id.numberSet4, R.id.numberSet5, R.id.numberSet6
+        )
 
-        numberTexts = Array(3) { i ->
+        numberTexts = Array(COUNTER_COUNT) { i ->
             findViewById<View>(includeIds[i]).findViewById(R.id.numberText)
         }
-        bonusTexts = Array(3) { i ->
+        bonusTexts = Array(SPINNER_AFFECTED_COUNT) { i ->
             findViewById<View>(includeIds[i]).findViewById(R.id.bonusText)
         }
-        plusButtons = Array(3) { i ->
+        plusButtons = Array(COUNTER_COUNT) { i ->
             findViewById<View>(includeIds[i]).findViewById(R.id.plusButton)
         }
-        minusButtons = Array(3) { i ->
+        minusButtons = Array(COUNTER_COUNT) { i ->
             findViewById<View>(includeIds[i]).findViewById(R.id.minusButton)
         }
 
-        for (i in 0..2) {
+        // 全6つのカウンター初期化
+        for (i in 0 until COUNTER_COUNT) {
             numberTexts[i].text = currentNumbers[i].toString()
-            bonusTexts[i].text = "(+0)"
             plusButtons[i].setOnClickListener {
                 currentNumbers[i]++
                 numberTexts[i].text = currentNumbers[i].toString()
@@ -79,81 +83,77 @@ class EquesActivity : AppCompatActivity() {
             }
         }
 
+        // 上段3つのボーナス表示初期化
+        for (i in 0 until SPINNER_AFFECTED_COUNT) {
+            bonusTexts[i].text = "(+0)"
+        }
+
         setupSpinners()
     }
 
     private fun setupSpinners() {
-        // セレクトボックス1のデータ
         val spinner1Items = arrayOf("オプション1", "オプション2", "オプション3")
         val adapter1 = ArrayAdapter(this, android.R.layout.simple_spinner_item, spinner1Items)
         adapter1.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
         spinner1.adapter = adapter1
 
-        // セレクトボックス2のデータ
         val spinner2Items = arrayOf("選択A", "選択B", "選択C")
         val adapter2 = ArrayAdapter(this, android.R.layout.simple_spinner_item, spinner2Items)
         adapter2.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
         spinner2.adapter = adapter2
 
-        // 初期値を1つ目に設定
         spinner1.setSelection(0, false)
         spinner2.setSelection(0, false)
 
-        // セレクトボックス1の変更リスナー
         spinner1.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
             override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
                 if (isFirstSelection1) {
                     isFirstSelection1 = false
                     return
                 }
-                // 前回の値を引いて、新しい値を足す
                 subtractValuesFromNumbers(spinner1Values[previousSpinner1Index])
                 addValuesToNumbers(spinner1Values[position])
                 previousSpinner1Index = position
                 updateBonusDisplay()
             }
-
             override fun onNothingSelected(parent: AdapterView<*>?) {}
         }
 
-        // セレクトボックス2の変更リスナー
         spinner2.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
             override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
                 if (isFirstSelection2) {
                     isFirstSelection2 = false
                     return
                 }
-                // 前回の値を引いて、新しい値を足す
                 subtractValuesFromNumbers(spinner2Values[previousSpinner2Index])
                 addValuesToNumbers(spinner2Values[position])
                 previousSpinner2Index = position
                 updateBonusDisplay()
             }
-
             override fun onNothingSelected(parent: AdapterView<*>?) {}
         }
     }
 
-    // 3つの数字に値を加算する
+    // 上段3つの数字に値を加算する
     private fun addValuesToNumbers(values: IntArray) {
-        for (i in 0..2) {
+        for (i in 0 until SPINNER_AFFECTED_COUNT) {
             currentNumbers[i] += values[i]
             currentBonus[i] += values[i]
             numberTexts[i].text = currentNumbers[i].toString()
         }
     }
 
-    // 3つの数字から値を減算する
+    // 上段3つの数字から値を減算する
     private fun subtractValuesFromNumbers(values: IntArray) {
-        for (i in 0..2) {
+        for (i in 0 until SPINNER_AFFECTED_COUNT) {
             currentNumbers[i] -= values[i]
             currentBonus[i] -= values[i]
         }
     }
 
-    // 加算値の表示を更新する
+    // 上段3つの加算値表示を更新する
     private fun updateBonusDisplay() {
-        for (i in 0..2) {
+        for (i in 0 until SPINNER_AFFECTED_COUNT) {
             val bonus = currentBonus[i]
             bonusTexts[i].text = if (bonus >= 0) "(+$bonus)" else "($bonus)"
         }
