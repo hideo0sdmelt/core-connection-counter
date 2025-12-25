@@ -23,18 +23,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".CreateQRActivity"
-            android:exported="false"
-            android:windowSoftInputMode="adjustResize"
-            android:screenOrientation="portrait"><!--回転を無しで制御-->
-        </activity>
-        <activity
-            android:name=".ReadmeActivity"
-            android:exported="false"
-            android:screenOrientation="portrait"><!--回転を無しで制御-->
-        </activity>
-        <activity
-            android:name=".ReadQRActivity"
+            android:name=".EquesActivity"
             android:exported="false"
             android:windowSoftInputMode="adjustResize"
             android:screenOrientation="portrait"><!--回転を無しで制御-->

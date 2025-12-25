@@ -1,3 +1,3 @@
-package com.nankaworks.cryptomessage.exceptions
+package com.works.coreconnectioncounter.exceptions
 
 class CreateQRException(message: String?) : Exception(message)

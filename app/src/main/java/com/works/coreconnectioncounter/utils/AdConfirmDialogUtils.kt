@@ -1,4 +1,4 @@
-package com.nankaworks.cryptomessage.utils
+package com.works.coreconnectioncounter.utils
 
 import android.content.Context
 import com.google.android.material.dialog.MaterialAlertDialogBuilder

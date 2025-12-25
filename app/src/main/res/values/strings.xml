@@ -1,10 +1,8 @@
 <resources>
     <string name="appName">みんなのAnngou</string>
-    <string name="cryptoRecipe">暗号の作り方</string>
-    <string name="cryptoCreation">暗号作成</string>
+    <string name="Eques">星断のエクエス</string>
     <string name="cryptoLoading">暗号読込</string>
     <string name="home_button">ホームに戻る</string>
-    <string name="readmeImage">Readme用の画像を表示する</string>
     <string name="qrCodeSaved">QRコードを保存しました</string>
     <string name="inputEncryptText">暗号化するテキストを入力\n(300文字以内)</string>
     <string name="inputEncryptionKey">暗号化キーを入力\n(50文字以内)</string>

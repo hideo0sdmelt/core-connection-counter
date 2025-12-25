@@ -1,4 +1,4 @@
-package com.nankaworks.cryptomessage
+package com.nankaworks.coreconnectioncounter
 
 import org.junit.Assert.assertEquals
 import org.junit.Test

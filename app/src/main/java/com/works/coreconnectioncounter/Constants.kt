@@ -1,4 +1,4 @@
-package com.nankaworks.cryptomessage
+package com.works.coreconnectioncounter
 
 object Constants {
     const val BANNER_AD_TEST_ID = "ca-app-pub-3940256099942544/9214589741"

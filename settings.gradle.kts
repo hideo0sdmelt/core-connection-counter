@@ -19,5 +19,5 @@ dependencyResolutionManagement {
     }
 }
 
-rootProject.name = "CryptoMessage"
+rootProject.name = "core-connection-counter"
 include(":app")

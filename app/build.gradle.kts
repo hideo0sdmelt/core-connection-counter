@@ -4,7 +4,7 @@ plugins {
 }
 
 android {
-    namespace = "com.nankaworks.cryptomessage"
+    namespace = "com.works.coreconnectioncounter"
     compileSdk = 35
 
     defaultConfig {
@@ -60,6 +60,4 @@ dependencies {
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
     implementation(libs.play.services.ads)
-    implementation("com.google.android.play:review:2.0.2")
-    implementation("com.google.android.play:review-ktx:2.0.2")
 }

@@ -1,4 +1,4 @@
-package com.nankaworks.cryptomessage
+package com.works.coreconnectioncounter
 
 import android.content.Intent
 import android.os.Bundle
@@ -6,11 +6,11 @@ import android.widget.ImageView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
+import com.google.android.material.appbar.MaterialToolbar
 import com.google.android.material.button.MaterialButton
 
 class HomeActivity : AppCompatActivity() {
     private lateinit var buttons: List<ButtonConfig>
-    private lateinit var bannerAdManager: BannerAdManager
 
     data class ButtonConfig(
         val title: String,
@@ -24,7 +24,7 @@ class HomeActivity : AppCompatActivity() {
         setContentView(R.layout.activity_home)
 
         // Toolbarにステータスバー分のパディングを追加
-        val toolbar = findViewById<com.google.android.material.appbar.MaterialToolbar>(R.id.toolbar)
+        val toolbar = findViewById<MaterialToolbar>(R.id.toolbar)
         ViewCompat.setOnApplyWindowInsetsListener(toolbar) { view, insets ->
             val statusBarHeight = insets.getInsets(WindowInsetsCompat.Type.statusBars()).top
             view.setPadding(
@@ -39,16 +39,10 @@ class HomeActivity : AppCompatActivity() {
         setSupportActionBar(toolbar)
         supportActionBar?.title = null
 
-        // バナー広告表示
-        bannerAdManager = BannerAdManager(this).apply {
-            initializeAd(findViewById(R.id.adViewContainer), Constants.BANNER_AD_ID)
-        }
-
         // ボタンの設定を初期化
         buttons = listOf(
-            ButtonConfig("暗号作成", CreateQRActivity::class.java, R.color.skyBlue, R.id.createButton),
-            ButtonConfig("暗号読込", ReadQRActivity::class.java, R.color.green, R.id.readqrButton),
-            ButtonConfig("暗号の作り方", ReadmeActivity::class.java, R.color.orange, R.id.readmeButton)
+            ButtonConfig("Eques", EquesActivity::class.java, R.color.skyBlue, R.id.createButton),
+            ButtonConfig("設定", EquesActivity::class.java, R.color.orange, R.id.button3)
         )
 
         // タイトル画像の設定

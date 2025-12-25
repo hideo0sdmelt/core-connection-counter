@@ -1,4 +1,4 @@
-package com.nankaworks.cryptomessage.utils
+package com.works.coreconnectioncounter.utils
 
 import android.app.Activity
 import android.content.Context

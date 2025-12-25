@@ -1,4 +1,4 @@
-package com.nankaworks.cryptomessage.utils
+package com.works.coreconnectioncounter.utils
 
 import java.util.concurrent.atomic.AtomicBoolean
 
