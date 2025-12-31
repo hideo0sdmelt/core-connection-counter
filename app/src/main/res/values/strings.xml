@@ -1,13 +1,8 @@
 <resources>
-    <string name="appName">みんなのAnngou</string>
-    <string name="Eques">星断のエクエス</string>
-    <string name="cryptoLoading">暗号読込</string>
-    <string name="home_button">ホームに戻る</string>
-    <string name="qrCodeSaved">QRコードを保存しました</string>
-    <string name="inputEncryptText">暗号化するテキストを入力\n(300文字以内)</string>
-    <string name="inputEncryptionKey">暗号化キーを入力\n(50文字以内)</string>
-    <string name="creationQRCode">QRコードを作成！</string>
-    <!-- プレースホルダー -->
-    <string name="inputEncryptTextArea">例）次の会議の内容は…</string>
-    <string name="inputEncryptionKeyArea">例）KEY1234567</string>
+    <string name="app_name">コアコネカウンタ</string>
+    <string name="title_eques">星断のエクエス</string>
+    <string name="title_nabla">暗躍のナブラ</string>
+    <string name="title_multi">二人</string>
+    <string name="button_home">ホームに戻る</string>
+    <string name="Reset">リセット</string>
 </resources>

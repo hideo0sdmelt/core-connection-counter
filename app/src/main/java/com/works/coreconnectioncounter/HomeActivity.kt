@@ -19,6 +19,7 @@ class HomeActivity : AppCompatActivity() {
         val buttonId: Int
     )
 
+    // オーバーライドメソッド
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_home)
@@ -28,10 +29,7 @@ class HomeActivity : AppCompatActivity() {
         ViewCompat.setOnApplyWindowInsetsListener(toolbar) { view, insets ->
             val statusBarHeight = insets.getInsets(WindowInsetsCompat.Type.statusBars()).top
             view.setPadding(
-                view.paddingLeft,
-                statusBarHeight,
-                view.paddingRight,
-                view.paddingBottom
+                view.paddingLeft, statusBarHeight, view.paddingRight, view.paddingBottom
             )
             insets
         }
@@ -41,8 +39,9 @@ class HomeActivity : AppCompatActivity() {
 
         // ボタンの設定を初期化
         buttons = listOf(
-            ButtonConfig("Eques", EquesActivity::class.java, R.color.skyBlue, R.id.createButton),
-            ButtonConfig("設定", EquesActivity::class.java, R.color.orange, R.id.button3)
+            ButtonConfig("星断のエクエス", EquesActivity::class.java, R.color.skyBlue, R.id.createButton),
+            ButtonConfig("暗躍のナブラ", EquesActivity::class.java, R.color.orange, R.id.secondButton),
+            ButtonConfig("2人分", ThirdActivity::class.java, R.color.green, R.id.thirdButton),
         )
 
         // タイトル画像の設定

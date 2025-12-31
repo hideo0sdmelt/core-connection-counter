@@ -8,6 +8,7 @@
     <color name="gray">#333333</color>
     <color name="blue">#3366FF</color>
     <color name="home_button_color">#2196F3</color>
+    <color name="reset_button_color">#FF9800</color>
     <color name="background_color">#CCE6FF</color>
     <color name="primary_blue">#3366FF</color>
     <color name="input_background">#F0F5FF</color>

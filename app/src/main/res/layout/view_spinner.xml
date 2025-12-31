@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/spinner_root"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+    <!-- スピナーのタイトル -->
+    <TextView
+        android:id="@+id/spinnerTitle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="タイトル"
+        android:textSize="12sp"
+        android:textColor="#666666"
+        android:layout_marginBottom="4dp" />
+
+    <!-- スピナー本体 -->
+    <Spinner
+        android:id="@+id/spinner"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@android:drawable/btn_dropdown"
+        android:padding="8dp" />
+
+</LinearLayout>

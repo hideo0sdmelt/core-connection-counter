@@ -1,0 +1,261 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/background_color"
+    tools:ignore="MissingDefaultResource">
+
+    <!-- Toolbar -->
+    <com.google.android.material.appbar.MaterialToolbar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="28dp"
+        android:background="?attr/colorPrimary"
+        android:elevation="4dp"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <!-- メインコンテンツ -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:orientation="horizontal"
+        android:padding="1dp"
+        android:spacing="1dp"
+        app:layout_constraintTop_toBottomOf="@id/toolbar"
+        app:layout_constraintBottom_toBottomOf="parent">
+
+        <!-- ========== 左側 ========== -->
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1">
+
+            <!-- セレクトボックス -->
+            <include
+                android:id="@+id/spinnerSet1_left"
+                layout="@layout/view_spinner"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="0.5dp"
+                android:layout_marginTop="1dp"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toStartOf="@id/spinnerSet2_left" />
+
+            <include
+                android:id="@+id/spinnerSet2_left"
+                layout="@layout/view_spinner"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="0.5dp"
+                android:layout_marginTop="1dp"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintStart_toEndOf="@id/spinnerSet1_left"
+                app:layout_constraintEnd_toEndOf="parent" />
+
+            <!-- 1段目（上段） -->
+            <include
+                android:id="@+id/numberSet1_left"
+                layout="@layout/view_number_set"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="0.5dp"
+                android:layout_marginTop="1dp"
+                app:layout_constraintTop_toBottomOf="@id/spinnerSet1_left"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toStartOf="@id/numberSet2_left" />
+
+            <include
+                android:id="@+id/numberSet2_left"
+                layout="@layout/view_number_set"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="0.5dp"
+                android:layout_marginEnd="0.5dp"
+                android:layout_marginTop="1dp"
+                app:layout_constraintTop_toBottomOf="@id/spinnerSet1_left"
+                app:layout_constraintStart_toEndOf="@id/numberSet1_left"
+                app:layout_constraintEnd_toStartOf="@id/numberSet3_left" />
+
+            <include
+                android:id="@+id/numberSet3_left"
+                layout="@layout/view_number_set"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="0.5dp"
+                android:layout_marginTop="1dp"
+                app:layout_constraintTop_toBottomOf="@id/spinnerSet1_left"
+                app:layout_constraintStart_toEndOf="@id/numberSet2_left"
+                app:layout_constraintEnd_toEndOf="parent" />
+
+            <!-- 倍率ボタン -->
+            <include
+                android:id="@+id/multiplierButtons_left"
+                layout="@layout/view_multiplier_buttons"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="1dp"
+                app:layout_constraintTop_toBottomOf="@id/numberSet1_left"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent" />
+
+            <!-- 2段目（下段） -->
+            <include
+                android:id="@+id/numberSet4_left"
+                layout="@layout/view_number_set"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="0.5dp"
+                android:layout_marginTop="1dp"
+                android:layout_marginBottom="1dp"
+                app:layout_constraintTop_toBottomOf="@id/multiplierButtons_left"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toStartOf="@id/numberSet5_left" />
+
+            <include
+                android:id="@+id/numberSet5_left"
+                layout="@layout/view_number_set"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="0.5dp"
+                android:layout_marginEnd="0.5dp"
+                android:layout_marginTop="1dp"
+                android:layout_marginBottom="1dp"
+                app:layout_constraintTop_toBottomOf="@id/multiplierButtons_left"
+                app:layout_constraintStart_toEndOf="@id/numberSet4_left"
+                app:layout_constraintEnd_toStartOf="@id/numberSet6_left" />
+
+            <include
+                android:id="@+id/numberSet6_left"
+                layout="@layout/view_number_set"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="0.5dp"
+                android:layout_marginTop="1dp"
+                android:layout_marginBottom="1dp"
+                app:layout_constraintTop_toBottomOf="@id/multiplierButtons_left"
+                app:layout_constraintStart_toEndOf="@id/numberSet5_left"
+                app:layout_constraintEnd_toEndOf="parent" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <!-- ========== 右側 ========== -->
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1">
+
+            <!-- セレクトボックス -->
+            <include
+                android:id="@+id/spinnerSet1_right"
+                layout="@layout/view_spinner"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="0.5dp"
+                android:layout_marginTop="1dp"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toStartOf="@id/spinnerSet2_right" />
+
+            <include
+                android:id="@+id/spinnerSet2_right"
+                layout="@layout/view_spinner"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="0.5dp"
+                android:layout_marginTop="1dp"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintStart_toEndOf="@id/spinnerSet1_right"
+                app:layout_constraintEnd_toEndOf="parent" />
+
+            <!-- 1段目（上段） -->
+            <include
+                android:id="@+id/numberSet1_right"
+                layout="@layout/view_number_set"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="0.5dp"
+                android:layout_marginTop="1dp"
+                app:layout_constraintTop_toBottomOf="@id/spinnerSet1_right"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toStartOf="@id/numberSet2_right" />
+
+            <include
+                android:id="@+id/numberSet2_right"
+                layout="@layout/view_number_set"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="0.5dp"
+                android:layout_marginEnd="0.5dp"
+                android:layout_marginTop="1dp"
+                app:layout_constraintTop_toBottomOf="@id/spinnerSet1_right"
+                app:layout_constraintStart_toEndOf="@id/numberSet1_right"
+                app:layout_constraintEnd_toStartOf="@id/numberSet3_right" />
+
+            <include
+                android:id="@+id/numberSet3_right"
+                layout="@layout/view_number_set"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="0.5dp"
+                android:layout_marginTop="1dp"
+                app:layout_constraintTop_toBottomOf="@id/spinnerSet1_right"
+                app:layout_constraintStart_toEndOf="@id/numberSet2_right"
+                app:layout_constraintEnd_toEndOf="parent" />
+
+            <!-- 倍率ボタン -->
+            <include
+                android:id="@+id/multiplierButtons_right"
+                layout="@layout/view_multiplier_buttons"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="1dp"
+                app:layout_constraintTop_toBottomOf="@id/numberSet1_right"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent" />
+
+            <!-- 2段目（下段） -->
+            <include
+                android:id="@+id/numberSet4_right"
+                layout="@layout/view_number_set"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="0.5dp"
+                android:layout_marginTop="1dp"
+                android:layout_marginBottom="1dp"
+                app:layout_constraintTop_toBottomOf="@id/multiplierButtons_right"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toStartOf="@id/numberSet5_right" />
+
+            <include
+                android:id="@+id/numberSet5_right"
+                layout="@layout/view_number_set"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="0.5dp"
+                android:layout_marginEnd="0.5dp"
+                android:layout_marginTop="1dp"
+                android:layout_marginBottom="1dp"
+                app:layout_constraintTop_toBottomOf="@id/multiplierButtons_right"
+                app:layout_constraintStart_toEndOf="@id/numberSet4_right"
+                app:layout_constraintEnd_toStartOf="@id/numberSet6_right" />
+
+            <include
+                android:id="@+id/numberSet6_right"
+                layout="@layout/view_number_set"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="0.5dp"
+                android:layout_marginTop="1dp"
+                android:layout_marginBottom="1dp"
+                app:layout_constraintTop_toBottomOf="@id/multiplierButtons_right"
+                app:layout_constraintStart_toEndOf="@id/numberSet5_right"
+                app:layout_constraintEnd_toEndOf="parent" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </LinearLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -17,16 +17,16 @@
         android:textColor="@color/black"
         android:background="@drawable/number_frame" />
 
-    <!-- 加算値表示（新規追加） -->
+    <!-- 🆕 タイトル（ボーナス付き） -->
     <TextView
-        android:id="@+id/bonusText"
+        android:id="@+id/titleText"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="(+0)"
-        android:textSize="16sp"
-        android:textColor="#888888"
+        android:text="タイトル(+0)"
+        android:textSize="14sp"
+        android:textColor="#666666"
         android:gravity="center"
-        android:layout_marginTop="4dp" />
+        android:layout_marginTop="6dp" />
 
     <LinearLayout
         android:layout_width="match_parent"

@@ -1,114 +1,192 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/background_color">
 
-    <!-- セレクトボックス1 -->
-    <Spinner
-        android:id="@+id/spinner1"
-        android:layout_width="0dp"
+
+    <!-- 🆕 Toolbar を追加 -->
+    <com.google.android.material.appbar.MaterialToolbar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:background="?attr/colorPrimary"
+        android:elevation="4dp"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <!-- 🆕 ScrollView で囲む -->
+    <ScrollView
+        android:id="@+id/scrollView"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        app:layout_constraintTop_toBottomOf="@id/toolbar"
+        app:layout_constraintBottom_toTopOf="@id/homeButton"
+        tools:ignore="NotSibling">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical">
+
+            <!-- ========== セレクトボックス ========== -->
+
+            <include
+                android:id="@+id/spinnerSet1"
+                layout="@layout/view_spinner"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginEnd="8dp"
+                android:layout_marginTop="16dp"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toStartOf="@id/spinnerSet2" />
+
+            <include
+                android:id="@+id/spinnerSet2"
+                layout="@layout/view_spinner"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginEnd="16dp"
+                android:layout_marginTop="16dp"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintStart_toEndOf="@id/spinnerSet1"
+                app:layout_constraintEnd_toEndOf="parent" />
+
+            <!-- ========== 1段目（上段） ========== -->
+
+            <include
+                android:id="@+id/numberSet1"
+                layout="@layout/view_number_set"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginEnd="8dp"
+                android:layout_marginTop="16dp"
+                app:layout_constraintTop_toBottomOf="@id/spinnerSet1"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toStartOf="@id/numberSet2" />
+
+            <include
+                android:id="@+id/numberSet2"
+                layout="@layout/view_number_set"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginEnd="8dp"
+                android:layout_marginTop="16dp"
+                app:layout_constraintTop_toBottomOf="@id/spinnerSet1"
+                app:layout_constraintStart_toEndOf="@id/numberSet1"
+                app:layout_constraintEnd_toStartOf="@id/numberSet3" />
+
+            <include
+                android:id="@+id/numberSet3"
+                layout="@layout/view_number_set"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginEnd="16dp"
+                android:layout_marginTop="16dp"
+                app:layout_constraintTop_toBottomOf="@id/spinnerSet1"
+                app:layout_constraintStart_toEndOf="@id/numberSet2"
+                app:layout_constraintEnd_toEndOf="parent" />
+
+            <!-- ========== 倍率ボタン ========== -->
+
+            <include
+                android:id="@+id/multiplierButtons"
+                layout="@layout/view_multiplier_buttons"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginEnd="16dp"
+                android:layout_marginTop="16dp"
+                app:layout_constraintTop_toBottomOf="@id/numberSet1"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent" />
+
+            <!-- ========== 2段目（下段） ========== -->
+
+            <include
+                android:id="@+id/numberSet4"
+                layout="@layout/view_number_set"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginEnd="8dp"
+                android:layout_marginTop="16dp"
+                app:layout_constraintTop_toBottomOf="@id/multiplierButtons"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toStartOf="@id/numberSet5" />
+
+            <include
+                android:id="@+id/numberSet5"
+                layout="@layout/view_number_set"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginEnd="8dp"
+                android:layout_marginTop="16dp"
+                app:layout_constraintTop_toBottomOf="@id/multiplierButtons"
+                app:layout_constraintStart_toEndOf="@id/numberSet4"
+                app:layout_constraintEnd_toStartOf="@id/numberSet6" />
+
+            <include
+                android:id="@+id/numberSet6"
+                layout="@layout/view_number_set"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginEnd="16dp"
+                android:layout_marginTop="16dp"
+                android:layout_marginBottom="16dp"
+                app:layout_constraintTop_toBottomOf="@id/multiplierButtons"
+                app:layout_constraintStart_toEndOf="@id/numberSet5"
+                app:layout_constraintEnd_toEndOf="parent" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </ScrollView>
+
+    <!-- ✅ ボタンコンテナ（ホーム＋リセット） -->
+    <LinearLayout
+        android:id="@+id/buttonContainer"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginTop="62dp"
-        app:layout_constraintTop_toTopOf="parent"
+        android:orientation="horizontal"
+        android:padding="16dp"
+        android:spacing="8dp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toStartOf="@id/spinner2" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent">
 
-    <!-- セレクトボックス2 -->
-    <Spinner
-        android:id="@+id/spinner2"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginEnd="16dp"
-        android:layout_marginTop="62dp"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintStart_toEndOf="@id/spinner1"
-        app:layout_constraintEnd_toEndOf="parent" />
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/homeButton"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="@string/button_home"
+            android:textSize="16sp"
+            android:padding="16dp"
+            app:backgroundTint="@color/home_button_color"
+            app:cornerRadius="8dp"
+            app:elevation="4dp" />
 
-    <!-- ========== 1段目（上段） ========== -->
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/resetButton"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="@string/Reset"
+            android:textSize="16sp"
+            android:padding="16dp"
+            android:layout_marginStart="8dp"
+            app:backgroundTint="@color/reset_button_color"
+            app:cornerRadius="8dp"
+            app:elevation="4dp" />
 
-    <!-- 1つ目のセット -->
-    <include
-        android:id="@+id/numberSet1"
-        layout="@layout/view_number_set"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginTop="16dp"
-        app:layout_constraintTop_toBottomOf="@id/spinner1"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toStartOf="@id/numberSet2" />
-
-    <!-- 2つ目のセット -->
-    <include
-        android:id="@+id/numberSet2"
-        layout="@layout/view_number_set"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginTop="16dp"
-        app:layout_constraintTop_toBottomOf="@id/spinner1"
-        app:layout_constraintStart_toEndOf="@id/numberSet1"
-        app:layout_constraintEnd_toStartOf="@id/numberSet3" />
-
-    <!-- 3つ目のセット -->
-    <include
-        android:id="@+id/numberSet3"
-        layout="@layout/view_number_set"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginEnd="16dp"
-        android:layout_marginTop="16dp"
-        app:layout_constraintTop_toBottomOf="@id/spinner1"
-        app:layout_constraintStart_toEndOf="@id/numberSet2"
-        app:layout_constraintEnd_toEndOf="parent" />
-
-    <!-- ========== 2段目（下段） ========== -->
-
-    <!-- 4つ目のセット -->
-    <include
-        android:id="@+id/numberSet4"
-        layout="@layout/view_number_set"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginTop="24dp"
-        app:layout_constraintTop_toBottomOf="@id/numberSet1"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toStartOf="@id/numberSet5" />
-
-    <!-- 5つ目のセット -->
-    <include
-        android:id="@+id/numberSet5"
-        layout="@layout/view_number_set"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginTop="24dp"
-        app:layout_constraintTop_toBottomOf="@id/numberSet2"
-        app:layout_constraintStart_toEndOf="@id/numberSet4"
-        app:layout_constraintEnd_toStartOf="@id/numberSet6" />
-
-    <!-- 6つ目のセット -->
-    <include
-        android:id="@+id/numberSet6"
-        layout="@layout/view_number_set"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginEnd="16dp"
-        android:layout_marginTop="24dp"
-        app:layout_constraintTop_toBottomOf="@id/numberSet3"
-        app:layout_constraintStart_toEndOf="@id/numberSet5"
-        app:layout_constraintEnd_toEndOf="parent" />
+    </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
