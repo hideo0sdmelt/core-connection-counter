@@ -169,6 +169,10 @@ class CounterActivity : AppCompatActivity() {
         isBoost1Active = false
         isBoost2Active = false
 
+        // ✅ ViewModel に通知（アニメーション停止）
+        viewModel.setAwakened(false)
+        viewModel.setCritical(false)
+
         // SharedPreferencesをクリア
         val prefs = getSharedPreferences("eques_state", MODE_PRIVATE)
         prefs.edit { clear() }
