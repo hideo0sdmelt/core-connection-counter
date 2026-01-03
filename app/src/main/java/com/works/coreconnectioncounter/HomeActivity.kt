@@ -39,14 +39,14 @@ class HomeActivity : AppCompatActivity() {
 
         // ボタンの設定を初期化
         buttons = listOf(
-            ButtonConfig("星断のエクエス", CounterActivity::class.java, R.color.skyBlue, R.id.createButton),
+            ButtonConfig("星断のエクエス", CounterActivity::class.java, R.color.skyBlue, R.id.equesButton),
             ButtonConfig("暗躍のナブラ", CounterActivity::class.java, R.color.orange, R.id.secondButton),
             ButtonConfig("2人分", ThirdActivity::class.java, R.color.green, R.id.thirdButton),
         )
 
         // タイトル画像の設定
         val titleImage = findViewById<ImageView>(R.id.titleImage)
-        titleImage.setImageResource(R.drawable.title)
+        titleImage.setImageResource(R.drawable.home)
 
         // 動的にボタンを生成
         buttons.forEach { buttonConfig ->

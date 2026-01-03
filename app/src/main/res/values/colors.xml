@@ -13,4 +13,5 @@
     <color name="primary_blue">#3366FF</color>
     <color name="input_background">#F0F5FF</color>
     <color name="button_background">@android:color/holo_orange_light</color>
+    <color name="title_gradient">#1E3A8A</color>
 </resources>

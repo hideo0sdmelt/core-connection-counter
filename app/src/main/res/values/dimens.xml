@@ -44,4 +44,13 @@
     <dimen name="layout_width">0dp</dimen>
     <!-- ReadQR Guideline用余白 -->
     <dimen name="readqr_guideline_margin">16dp</dimen>
+
+    <!-- Home画面タイトル -->
+    <dimen name="home_title_text_size">44sp</dimen>
+    <dimen name="home_title_margin_top">12dp</dimen>
+    <dimen name="home_button_text_size">30sp</dimen>
+    <dimen name="home_button_padding">20dp</dimen>
+    <dimen name="home_button_margin_horizontal">32dp</dimen>
+    <dimen name="home_button_margin_top_first">20dp</dimen>
+    <dimen name="home_button_margin_top_between">12dp</dimen>
 </resources>
