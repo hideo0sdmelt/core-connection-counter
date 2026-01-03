@@ -151,11 +151,24 @@ class CounterActivity : AppCompatActivity() {
         val prefs = getSharedPreferences("eques_state", MODE_PRIVATE)
         prefs.edit { clear() }
 
-        // スピナーをリセット（リスナーが呼ばれるように true に変更）
-        isFirstSelection1 = true
-        isFirstSelection2 = true
-        spinner1.setSelection(0, true)
-        spinner2.setSelection(0, true)
+        // ★ スピナーをリセット（リスナーを呼ばずにリセット）
+        spinner1.setSelection(0, false)
+        spinner2.setSelection(0, false)
+
+        // ★ 初期値を手動で加算
+        val spinner1Values = SpinnerData.getSpinner1Values(currentMode)
+        val spinner2Values = SpinnerData.getSpinner2Values(currentMode)
+
+        addValuesToNumbers(spinner1Values[0])
+        addValuesToNumbers(spinner2Values[0])
+
+        previousSpinner1Index = 0
+        previousSpinner2Index = 0
+
+        // ★ 初期値のボーナスを設定
+        for (i in 0 until SPINNER_AFFECTED_COUNT) {
+            currentBonus[i] = spinner1Values[0][i] + spinner2Values[0][i]
+        }
 
         updateButtonAppearance()
         updateAllTitles()
@@ -224,37 +237,31 @@ class CounterActivity : AppCompatActivity() {
         updateButtonAppearance()
     }
 
-    // クラスメンバーに追加
-    private val baseNumbers = IntArray(COUNTER_COUNT)
-
     // 覚醒ボタン（パイロット依存）のトグル処理
     private fun toggleBoost1() {
         // パイロットが初期値の場合は処理しない
         if (spinner1.selectedItemPosition == 0) return
 
-        // ===== パイロット関連の値を取得 =====
-        val pilotBaseValues = SpinnerData.getSpinner1Values(currentMode)[previousSpinner1Index]
-        val pilotBoostValues = SpinnerData.getSpinner1BoostValues(currentMode)[previousSpinner1Index]
+        val spinner1Values = SpinnerData.getSpinner1Values(currentMode)
+        val spinner1BoostValues = SpinnerData.getSpinner1BoostValues(currentMode)
 
-        // ===== 機体のベース値を取得（ブースト時も変わらない） =====
-        val machineBaseValues = SpinnerData.getSpinner2Values(currentMode)[previousSpinner2Index]
+        val pilotBaseValues = spinner1Values[previousSpinner1Index]
+        val pilotBoostValues = spinner1BoostValues[previousSpinner1Index]
 
         if (isBoost1Active) {
             // ===== ブースト状態をOFFにする =====
-            // パイロットブースト分を削除して元の値に戻す
+            // パイロットブースト → パイロット元に戻す
             for (i in 0 until SPINNER_AFFECTED_COUNT) {
-                // 現在：（パイロットブースト + 機体ベース + 手動）
-                // 目標：（パイロット元 + 機体ベース + 手動）
-                currentNumbers[i] = pilotBaseValues[i] + machineBaseValues[i] + currentBonus[i]
+                val diff = pilotBoostValues[i] - pilotBaseValues[i]
+                currentNumbers[i] -= diff
                 numberTexts[i].text = currentNumbers[i].toString()
             }
         } else {
             // ===== ブースト状態をONにする =====
-            // パイロットをブースト値に変更
+            // パイロット元 → パイロットブーストに変更
             for (i in 0 until SPINNER_AFFECTED_COUNT) {
-                // 現在：（パイロット元 + 機体ベース + 手動）
-                // 目標：（パイロットブースト + 機体ベース + 手動）
-                currentNumbers[i] = pilotBoostValues[i] + machineBaseValues[i] + currentBonus[i]
+                val diff = pilotBoostValues[i] - pilotBaseValues[i]
+                currentNumbers[i] += diff
                 numberTexts[i].text = currentNumbers[i].toString()
             }
         }
@@ -269,21 +276,26 @@ class CounterActivity : AppCompatActivity() {
         // 機体が初期値の場合は処理しない
         if (spinner2.selectedItemPosition == 0) return
 
-        val boostValues = SpinnerData.getSpinner2BoostValues(currentMode)[previousSpinner2Index]
-        val baseValues = SpinnerData.getSpinner2Values(currentMode)[previousSpinner2Index]
+        val spinner2Values = SpinnerData.getSpinner2Values(currentMode)
+        val spinner2BoostValues = SpinnerData.getSpinner2BoostValues(currentMode)
+
+        val machineBaseValues = spinner2Values[previousSpinner2Index]
+        val machineBoostValues = spinner2BoostValues[previousSpinner2Index]
 
         if (isBoost2Active) {
-            // ブースト状態をOFFにする → ベース値に戻す
+            // ===== ブースト状態をOFFにする =====
+            // 機体ブースト → 機体元に戻す
             for (i in 0 until SPINNER_AFFECTED_COUNT) {
-                currentNumbers[i] -= boostValues[i]
-                currentBonus[i] = 0
+                val diff = machineBoostValues[i] - machineBaseValues[i]
+                currentNumbers[i] -= diff
                 numberTexts[i].text = currentNumbers[i].toString()
             }
         } else {
-            // ブースト状態をONにする → ブースト値を適用
+            // ===== ブースト状態をONにする =====
+            // 機体元 → 機体ブーストに変更
             for (i in 0 until SPINNER_AFFECTED_COUNT) {
-                currentNumbers[i] += boostValues[i]
-                currentBonus[i] = boostValues[i]
+                val diff = machineBoostValues[i] - machineBaseValues[i]
+                currentNumbers[i] += diff
                 numberTexts[i].text = currentNumbers[i].toString()
             }
         }

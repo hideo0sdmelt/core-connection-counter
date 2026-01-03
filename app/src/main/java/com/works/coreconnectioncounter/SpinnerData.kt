@@ -28,7 +28,7 @@ object SpinnerData {
     )
 
     val EQUES_PILOT_BOOST_VALUES = arrayOf(
-        intArrayOf(0, 0, 0),      // 選抜パイロット
+        intArrayOf(1, 0, 1),      // 選抜パイロット 101（初期値）
         intArrayOf(6, 0, 6),      // 日野アカリ 606
         intArrayOf(3, 2, 3),      // エミリア・ホーク 323
         intArrayOf(0, 5, 5),      // ロマーナ・イリス 055
@@ -59,7 +59,7 @@ object SpinnerData {
     )
 
     val EQUES_MECHA_BOOST_VALUES = arrayOf(
-        intArrayOf(0, 0, 0),      // 量産機
+        intArrayOf(1, 0, 1),      // 量産機 101
         intArrayOf(8, 0, 8),      // カンナガラ三號 808
         intArrayOf(6, 4, 6),      // SUPERNOVA 646
         intArrayOf(0, 6, 9),      // Er-28++ ケリュケイオン 069
