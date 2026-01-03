@@ -7,16 +7,24 @@ import android.widget.ArrayAdapter
 import android.widget.Spinner
 import android.widget.TextView
 import androidx.activity.OnBackPressedCallback
+import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.edit
 import com.google.android.material.appbar.MaterialToolbar
 import com.google.android.material.button.MaterialButton
+import com.works.coreconnectioncounter.databinding.ActivityCounterBinding
+import com.works.coreconnectioncounter.ui.GameViewModel
+import com.works.coreconnectioncounter.utils.ButtonAnimationUtils
 
 class CounterActivity : AppCompatActivity() {
     companion object {
         private const val COUNTER_COUNT = 6
         private const val SPINNER_AFFECTED_COUNT = 3
     }
+
+    // ✅ ViewBinding と ViewModel を追加
+    private lateinit var binding: ActivityCounterBinding
+    private val viewModel: GameViewModel by viewModels()
 
     // ツールバーとボタン
     private lateinit var toolbar: MaterialToolbar
@@ -55,10 +63,26 @@ class CounterActivity : AppCompatActivity() {
 
     // モード情報
     private var currentMode = "mode1"
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_counter)
+
+        // ✅ ViewBinding を初期化
+        binding = ActivityCounterBinding.inflate(layoutInflater)
+        setContentView(binding.root)
+
+        // ✅ 覚醒ボタンの状態を購読
+        viewModel.isAwakened.observe(this) { isAwakened ->
+            ButtonAnimationUtils.setButtonAwakened(
+                multiplierButton1, isAwakened
+            )
+        }
+
+        // ✅ 臨界ボタンの状態を購読
+        viewModel.isCritical.observe(this) { isCritical ->
+            ButtonAnimationUtils.setButtonAwakened(
+                multiplierButton2, isCritical
+            )
+        }
 
         // バックボタンの処理を登録
         onBackPressedDispatcher.addCallback(this, object : OnBackPressedCallback(true) {
@@ -78,12 +102,10 @@ class CounterActivity : AppCompatActivity() {
         setupSpinnerViews()
         setupCounterViews()
         setupMultiplierButtons()
-        setupSpinners()
 
-        updateAllTitles()
-
-        // 保存されたデータを復元
         restoreState()
+        setupSpinners()
+        updateAllTitles()
     }
 
     override fun onPause() {
@@ -267,6 +289,7 @@ class CounterActivity : AppCompatActivity() {
         }
 
         isBoost1Active = !isBoost1Active
+        viewModel.setAwakened(isBoost1Active)
         updateButtonAppearance()
         updateAllTitles()
     }
@@ -301,6 +324,7 @@ class CounterActivity : AppCompatActivity() {
         }
 
         isBoost2Active = !isBoost2Active
+        viewModel.setCritical(isBoost2Active)
         updateButtonAppearance()
         updateAllTitles()
     }
@@ -324,7 +348,6 @@ class CounterActivity : AppCompatActivity() {
 
     // スピナーを初期化してアダプターを設定
     private fun setupSpinners() {
-        // モードに応じたアイテムを取得
         val spinner1Items = SpinnerData.getSpinner1Items(currentMode)
         val spinner2Items = SpinnerData.getSpinner2Items(currentMode)
 
@@ -341,23 +364,28 @@ class CounterActivity : AppCompatActivity() {
             override fun onItemSelected(
                 parent: AdapterView<*>?, view: View?, position: Int, id: Long
             ) {
-                // 初回選択時の処理
+                // ✅ 復元時はスキップ（isFirstSelection1 = false に設定済み）
                 if (isFirstSelection1) {
                     isFirstSelection1 = false
                     previousSpinner1Index = position
-                    val spinner1Values = SpinnerData.getSpinner1Values(currentMode)
-                    addValuesToNumbers(spinner1Values[position])
 
-                    // ★ 初期値（選抜パイロット）のボーナス値を設定
-                    for (i in 0 until SPINNER_AFFECTED_COUNT) {
-                        currentBonus[i] = spinner1Values[position][i]
+                    if (position != 0) {
+                        val spinner1Values = SpinnerData.getSpinner1Values(currentMode)
+                        addValuesToNumbers(spinner1Values[position])
+                        for (i in 0 until SPINNER_AFFECTED_COUNT) {
+                            currentBonus[i] = spinner1Values[position][i]
+                        }
+                    } else {
+                        val spinner1Values = SpinnerData.getSpinner1Values(currentMode)
+                        for (i in 0 until SPINNER_AFFECTED_COUNT) {
+                            currentBonus[i] = spinner1Values[position][i]
+                        }
                     }
 
                     updateAllTitles()
                     updateButtonAppearance()
                     return
                 }
-                // 2回目以降の選択時の処理
                 onSpinner1Changed(position)
             }
 
@@ -369,33 +397,39 @@ class CounterActivity : AppCompatActivity() {
             override fun onItemSelected(
                 parent: AdapterView<*>?, view: View?, position: Int, id: Long
             ) {
-                // 初回選択時の処理
+                // ✅ 復元時はスキップ（isFirstSelection2 = false に設定済み）
                 if (isFirstSelection2) {
                     isFirstSelection2 = false
                     previousSpinner2Index = position
-                    val spinner2Values = SpinnerData.getSpinner2Values(currentMode)
-                    addValuesToNumbers(spinner2Values[position])
 
-                    // ★ 初期値（量産機）のボーナス値を設定
-                    for (i in 0 until SPINNER_AFFECTED_COUNT) {
-                        currentBonus[i] += spinner2Values[position][i]
+                    if (position != 0) {
+                        val spinner2Values = SpinnerData.getSpinner2Values(currentMode)
+                        addValuesToNumbers(spinner2Values[position])
+                        for (i in 0 until SPINNER_AFFECTED_COUNT) {
+                            currentBonus[i] += spinner2Values[position][i]
+                        }
+                    } else {
+                        val spinner2Values = SpinnerData.getSpinner2Values(currentMode)
+                        for (i in 0 until SPINNER_AFFECTED_COUNT) {
+                            currentBonus[i] += spinner2Values[position][i]
+                        }
                     }
 
                     updateAllTitles()
                     updateButtonAppearance()
                     return
                 }
-                // 2回目以降の選択時の処理
                 onSpinner2Changed(position)
             }
 
             override fun onNothingSelected(parent: AdapterView<*>?) {}
         }
 
-        // 初期選択を設定（リスナーが呼ばれる）
-        spinner1.setSelection(0, true)
-        spinner2.setSelection(0, true)
+        // ✅ 復元したインデックスを使用
+        spinner1.setSelection(previousSpinner1Index, true)
+        spinner2.setSelection(previousSpinner2Index, true)
     }
+
 
     // パイロット選択変更時の処理
     private fun onSpinner1Changed(newPosition: Int) {
@@ -532,8 +566,17 @@ class CounterActivity : AppCompatActivity() {
         val prefs = getSharedPreferences("eques_state", MODE_PRIVATE)
         prefs.edit().apply {
             putString("MODE", currentMode)
+
+            // ✅ パイロットと機体の選択を保存
             putInt("SPINNER1_INDEX", spinner1.selectedItemPosition)
             putInt("SPINNER2_INDEX", spinner2.selectedItemPosition)
+
+            // ✅ パイロットと機体の名前も保存（オプション）
+            val spinner1Items = SpinnerData.getSpinner1Items(currentMode)
+            val spinner2Items = SpinnerData.getSpinner2Items(currentMode)
+            putString("SPINNER1_NAME", spinner1Items[spinner1.selectedItemPosition])
+            putString("SPINNER2_NAME", spinner2Items[spinner2.selectedItemPosition])
+
             for (i in 0 until COUNTER_COUNT) {
                 putInt("NUMBER_$i", currentNumbers[i])
             }
@@ -551,8 +594,11 @@ class CounterActivity : AppCompatActivity() {
         val prefs = getSharedPreferences("eques_state", MODE_PRIVATE)
         currentMode = prefs.getString("MODE", "mode1") ?: "mode1"
 
-        val spinner1Index = prefs.getInt("SPINNER1_INDEX", 0)
-        val spinner2Index = prefs.getInt("SPINNER2_INDEX", 0)
+        previousSpinner1Index = prefs.getInt("SPINNER1_INDEX", 0)
+        previousSpinner2Index = prefs.getInt("SPINNER2_INDEX", 0)
+
+        isFirstSelection1 = false
+        isFirstSelection2 = false
 
         // カウンター値を復元
         for (i in 0 until COUNTER_COUNT) {
@@ -572,11 +618,13 @@ class CounterActivity : AppCompatActivity() {
             numberTexts[i].text = currentNumbers[i].toString()
         }
 
-        // リスナーが呼ばれないように false に設定
-        spinner1.setSelection(spinner1Index, false)
-        spinner2.setSelection(spinner2Index, false)
+        // ✅ ViewModel に状態を通知（アニメーション開始）
+        viewModel.setAwakened(isBoost1Active)
+        viewModel.setCritical(isBoost2Active)
 
         updateButtonAppearance()
         updateAllTitles()
     }
+
+
 }

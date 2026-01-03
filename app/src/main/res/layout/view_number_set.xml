@@ -49,7 +49,7 @@
             android:textStyle="bold"
             android:textColor="@color/white"
             app:cornerRadius="0dp"
-            app:backgroundTint="@color/orange" />
+            app:backgroundTint="@color/button_minus" />
 
         <!-- プラスボタン -->
         <com.google.android.material.button.MaterialButton
@@ -64,6 +64,6 @@
             android:textStyle="bold"
             android:textColor="@color/white"
             app:cornerRadius="0dp"
-            app:backgroundTint="@color/green" />
+            app:backgroundTint="@color/button_plus" />
     </LinearLayout>
 </LinearLayout>

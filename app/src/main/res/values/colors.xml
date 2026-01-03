@@ -7,11 +7,17 @@
     <color name="skyBlue">#AFDFE4</color>
     <color name="gray">#333333</color>
     <color name="blue">#3366FF</color>
-    <color name="home_button_color">#2196F3</color>
-    <color name="reset_button_color">#FF9800</color>
     <color name="background_color">#CCE6FF</color>
     <color name="primary_blue">#3366FF</color>
     <color name="input_background">#F0F5FF</color>
     <color name="button_background">@android:color/holo_orange_light</color>
     <color name="title_gradient">#1E3A8A</color>
+    <color name="awakened_highlight">#FFD700</color>
+    <color name="awakened_border">#FFA500</color>
+    <color name="button_plus">#4CAF50</color>      <!-- 緑 -->
+    <color name="button_minus">#FF6B6B</color>     <!-- 赤 -->
+    <color name="button_reset">#C62828</color>     <!-- 濃い赤 -->
+    <color name="button_home">#2196F3</color>      <!-- 青 -->
+    <color name="button_boost1">#5C6BC0</color>    <!-- 紫 -->
+    <color name="button_boost2">#7E57C2</color>    <!-- 薄い紫 -->
 </resources>

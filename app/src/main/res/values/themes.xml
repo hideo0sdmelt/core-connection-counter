@@ -6,7 +6,7 @@
     </style>
 
     <style name="Theme.CoreConnectionCounter" parent="Theme.Material3.DayNight.NoActionBar">
-        <item name="colorPrimary">@color/home_button_color</item>
+        <item name="colorPrimary">@color/button_home</item>
     </style>
 
 </resources>

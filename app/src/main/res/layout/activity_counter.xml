@@ -170,7 +170,7 @@
             android:text="@string/button_home"
             android:textSize="16sp"
             android:padding="16dp"
-            app:backgroundTint="@color/home_button_color"
+            app:backgroundTint="@color/button_home"
             app:cornerRadius="8dp"
             app:elevation="4dp" />
 
@@ -183,7 +183,7 @@
             android:textSize="16sp"
             android:padding="16dp"
             android:layout_marginStart="8dp"
-            app:backgroundTint="@color/reset_button_color"
+            app:backgroundTint="@color/button_reset"
             app:cornerRadius="8dp"
             app:elevation="4dp" />
 
