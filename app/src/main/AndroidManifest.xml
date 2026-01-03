@@ -34,7 +34,7 @@
         </activity>
 
         <activity
-            android:name=".EquesActivity"
+            android:name=".CounterActivity"
             android:exported="false"
             android:windowSoftInputMode="adjustResize"
             android:screenOrientation="portrait" />
