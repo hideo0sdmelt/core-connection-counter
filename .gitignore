@@ -1,15 +1,22 @@
+# IDE設定（.idea配下全体を無視）
+.idea/
 *.iml
-.gradle
+*.iws
+*.ipr
+
+# Gradle
+.gradle/
 /local.properties
-/.idea/caches
-/.idea/libraries
-/.idea/modules.xml
-/.idea/workspace.xml
-/.idea/navEditor.xml
-/.idea/assetWizardSettings.xml
-.DS_Store
+
+# Build
 /build
 /captures
 .externalNativeBuild
 .cxx
 local.properties
+
+# App Bundle
+*.aab
+
+# OS
+.DS_Store
