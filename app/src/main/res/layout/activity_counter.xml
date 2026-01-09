@@ -83,9 +83,8 @@
 
             <!-- ========== 1段目（上段） ========== -->
 
-            <include
+            <com.works.coreconnectioncounter.NumberSetView
                 android:id="@+id/numberSet1"
-                layout="@layout/view_number_set"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
@@ -95,9 +94,8 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toStartOf="@id/numberSet2" />
 
-            <include
+            <com.works.coreconnectioncounter.NumberSetView
                 android:id="@+id/numberSet2"
-                layout="@layout/view_number_set"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
@@ -107,9 +105,8 @@
                 app:layout_constraintStart_toEndOf="@id/numberSet1"
                 app:layout_constraintEnd_toStartOf="@id/numberSet3" />
 
-            <include
+            <com.works.coreconnectioncounter.NumberSetView
                 android:id="@+id/numberSet3"
-                layout="@layout/view_number_set"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
@@ -135,9 +132,8 @@
 
             <!-- ========== 2段目（下段） ========== -->
 
-            <include
+            <com.works.coreconnectioncounter.NumberSetView
                 android:id="@+id/numberSet4"
-                layout="@layout/view_number_set"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
@@ -147,9 +143,8 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toStartOf="@id/numberSet5" />
 
-            <include
+            <com.works.coreconnectioncounter.NumberSetView
                 android:id="@+id/numberSet5"
-                layout="@layout/view_number_set"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
@@ -159,9 +154,8 @@
                 app:layout_constraintStart_toEndOf="@id/numberSet4"
                 app:layout_constraintEnd_toStartOf="@id/numberSet6" />
 
-            <include
+            <com.works.coreconnectioncounter.NumberSetView
                 android:id="@+id/numberSet6"
-                layout="@layout/view_number_set"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"

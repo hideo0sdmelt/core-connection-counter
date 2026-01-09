@@ -44,6 +44,7 @@ class CounterActivity : AppCompatActivity() {
     // 背景画像
     private lateinit var backgroundImageTop: ImageView
     private lateinit var backgroundImageBottom: ImageView
+    private lateinit var backgroundManager: BackgroundManager
 
     // ブーストボタン
     private lateinit var multiplierButton1: MaterialButton
@@ -176,11 +177,13 @@ class CounterActivity : AppCompatActivity() {
         for (i in 0 until COUNTER_COUNT) {
             currentNumbers[i] = 0
             numberTexts[i].text = "0"
+            viewModel.setNumber(i, 0)
         }
 
         // ボーナスをリセット
         for (i in 0 until SPINNER_AFFECTED_COUNT) {
             currentBonus[i] = 0
+            viewModel.setBonus(i, 0)
         }
 
         // ブースト状態をリセット
@@ -194,6 +197,7 @@ class CounterActivity : AppCompatActivity() {
         // SharedPreferencesをクリア
         val prefs = getSharedPreferences("eques_state", MODE_PRIVATE)
         prefs.edit { clear() }
+        viewModel.initializeFromState(CounterState())
 
         // ★ スピナーをリセット（リスナーを呼ばずにリセット）
         spinner1.setSelection(0, false)
@@ -208,10 +212,12 @@ class CounterActivity : AppCompatActivity() {
 
         previousSpinner1Index = 0
         previousSpinner2Index = 0
+        viewModel.setSpinnerIndices(0,0)
 
         // ★ 初期値のボーナスを設定
         for (i in 0 until SPINNER_AFFECTED_COUNT) {
             currentBonus[i] = spinner1Values[0][i] + spinner2Values[0][i]
+            viewModel.setBonus(i, currentBonus[i])
         }
 
         updateButtonAppearance()
@@ -236,34 +242,23 @@ class CounterActivity : AppCompatActivity() {
     private fun setupBackgroundImage() {
         backgroundImageTop = findViewById(R.id.backgroundImageTop)
         backgroundImageBottom = findViewById(R.id.backgroundImageBottom)
+        backgroundManager = BackgroundManager()
+        backgroundManager.attach(backgroundImageTop, backgroundImageBottom)
     }
 
     // 背景画像を更新（パイロット用：上半分）
     private fun updateBackgroundImageTop() {
-        val imageResId = SpinnerData.getPilotBackgroundImage(currentMode, previousSpinner1Index)
-        if (imageResId != 0) {
-            backgroundImageTop.setImageResource(imageResId)
-            backgroundImageTop.visibility = View.VISIBLE
-        } else {
-            backgroundImageTop.visibility = View.GONE
-        }
+        backgroundManager.updateTop(currentMode, previousSpinner1Index)
     }
 
     // 背景画像を更新（機体用：下半分）
     private fun updateBackgroundImageBottom() {
-        val imageResId = SpinnerData.getMechaBackgroundImage(currentMode, previousSpinner2Index)
-        if (imageResId != 0) {
-            backgroundImageBottom.setImageResource(imageResId)
-            backgroundImageBottom.visibility = View.VISIBLE
-        } else {
-            backgroundImageBottom.visibility = View.GONE
-        }
+        backgroundManager.updateBottom(currentMode, previousSpinner2Index)
     }
 
     // 背景画像を更新（両方）
     private fun updateBackgroundImage() {
-        updateBackgroundImageTop()
-        updateBackgroundImageBottom()
+        backgroundManager.updateBoth(currentMode, previousSpinner1Index, previousSpinner2Index)
     }
 
     // カウンターのビューを初期化
@@ -274,16 +269,16 @@ class CounterActivity : AppCompatActivity() {
         )
 
         numberTexts = Array(COUNTER_COUNT) { i ->
-            findViewById<View>(includeIds[i]).findViewById(R.id.numberText)
+            findViewById<NumberSetView>(includeIds[i]).findViewById(R.id.numberText)
         }
         titleTexts = Array(COUNTER_COUNT) { i ->
-            findViewById<View>(includeIds[i]).findViewById(R.id.titleText)
+            findViewById<NumberSetView>(includeIds[i]).findViewById(R.id.titleText)
         }
         plusButtons = Array(COUNTER_COUNT) { i ->
-            findViewById<View>(includeIds[i]).findViewById(R.id.plusButton)
+            findViewById<NumberSetView>(includeIds[i]).findViewById(R.id.plusButton)
         }
         minusButtons = Array(COUNTER_COUNT) { i ->
-            findViewById<View>(includeIds[i]).findViewById(R.id.minusButton)
+            findViewById<NumberSetView>(includeIds[i]).findViewById(R.id.minusButton)
         }
 
         // 各カウンターにクリックリスナーを設定
@@ -292,6 +287,7 @@ class CounterActivity : AppCompatActivity() {
             plusButtons[i].setOnClickListener {
                 currentNumbers[i]++
                 numberTexts[i].text = currentNumbers[i].toString()
+                viewModel.setNumber(i, currentNumbers[i])
                 // EPが20に達したら通知
                 if (i == EP_INDEX) {
                     checkEpThreshold()
@@ -300,6 +296,7 @@ class CounterActivity : AppCompatActivity() {
             minusButtons[i].setOnClickListener {
                 currentNumbers[i]--
                 numberTexts[i].text = currentNumbers[i].toString()
+                viewModel.setNumber(i, currentNumbers[i])
             }
         }
     }
@@ -337,6 +334,7 @@ class CounterActivity : AppCompatActivity() {
                 val diff = pilotBoostValues[i] - pilotBaseValues[i]
                 currentNumbers[i] -= diff
                 numberTexts[i].text = currentNumbers[i].toString()
+                viewModel.setNumber(i, currentNumbers[i])
             }
         } else {
             // ===== ブースト状態をONにする =====
@@ -345,11 +343,12 @@ class CounterActivity : AppCompatActivity() {
                 val diff = pilotBoostValues[i] - pilotBaseValues[i]
                 currentNumbers[i] += diff
                 numberTexts[i].text = currentNumbers[i].toString()
+                viewModel.setNumber(i, currentNumbers[i])
             }
         }
 
         isBoost1Active = !isBoost1Active
-        viewModel.setAwakened(isBoost1Active)
+        viewModel.setBoost1(isBoost1Active)
         updateButtonAppearance()
         updateAllTitles()
     }
@@ -372,6 +371,7 @@ class CounterActivity : AppCompatActivity() {
                 val diff = machineBoostValues[i] - machineBaseValues[i]
                 currentNumbers[i] -= diff
                 numberTexts[i].text = currentNumbers[i].toString()
+                viewModel.setNumber(i, currentNumbers[i])
             }
         } else {
             // ===== ブースト状態をONにする =====
@@ -380,11 +380,12 @@ class CounterActivity : AppCompatActivity() {
                 val diff = machineBoostValues[i] - machineBaseValues[i]
                 currentNumbers[i] += diff
                 numberTexts[i].text = currentNumbers[i].toString()
+                viewModel.setNumber(i, currentNumbers[i])
             }
         }
 
         isBoost2Active = !isBoost2Active
-        viewModel.setCritical(isBoost2Active)
+        viewModel.setBoost2(isBoost2Active)
         updateButtonAppearance()
         updateAllTitles()
     }
@@ -408,88 +409,65 @@ class CounterActivity : AppCompatActivity() {
 
     // スピナーを初期化してアダプターを設定
     private fun setupSpinners() {
-        val spinner1Items = SpinnerData.getSpinner1Items(currentMode)
-        val spinner2Items = SpinnerData.getSpinner2Items(currentMode)
+        val manager = SpinnerManager(
+            this,
+            getMode = { currentMode },
+            isFirstSelection1 = { isFirstSelection1 },
+            setFirstSelection1 = { v -> isFirstSelection1 = v },
+            isFirstSelection2 = { isFirstSelection2 },
+            setFirstSelection2 = { v -> isFirstSelection2 = v },
+            onFirstSelection1 = { position ->
+                isFirstSelection1 = false
+                previousSpinner1Index = position
 
-        val adapter1 = ArrayAdapter(this, android.R.layout.simple_spinner_item, spinner1Items)
-        adapter1.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
-        spinner1.adapter = adapter1
-
-        val adapter2 = ArrayAdapter(this, android.R.layout.simple_spinner_item, spinner2Items)
-        adapter2.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
-        spinner2.adapter = adapter2
-
-        // パイロットスピナーのリスナー
-        spinner1.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
-            override fun onItemSelected(
-                parent: AdapterView<*>?, view: View?, position: Int, id: Long
-            ) {
-                // ✅ 復元時はスキップ（isFirstSelection1 = false に設定済み）
-                if (isFirstSelection1) {
-                    isFirstSelection1 = false
-                    previousSpinner1Index = position
-
-                    if (position != 0) {
-                        val spinner1Values = SpinnerData.getSpinner1Values(currentMode)
-                        addValuesToNumbers(spinner1Values[position])
-                        for (i in 0 until SPINNER_AFFECTED_COUNT) {
-                            currentBonus[i] = spinner1Values[position][i]
-                        }
-                    } else {
-                        val spinner1Values = SpinnerData.getSpinner1Values(currentMode)
-                        for (i in 0 until SPINNER_AFFECTED_COUNT) {
-                            currentBonus[i] = spinner1Values[position][i]
-                        }
+                if (position != 0) {
+                    val spinner1Values = SpinnerData.getSpinner1Values(currentMode)
+                    addValuesToNumbers(spinner1Values[position])
+                    for (i in 0 until SPINNER_AFFECTED_COUNT) {
+                        currentBonus[i] = spinner1Values[position][i]
                     }
-
-                    updateAllTitles()
-                    updateButtonAppearance()
-                    updateBackgroundImage()
-                    return
-                }
-                onSpinner1Changed(position)
-            }
-
-            override fun onNothingSelected(parent: AdapterView<*>?) {}
-        }
-
-        // 機体スピナーのリスナー
-        spinner2.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
-            override fun onItemSelected(
-                parent: AdapterView<*>?, view: View?, position: Int, id: Long
-            ) {
-                // ✅ 復元時はスキップ（isFirstSelection2 = false に設定済み）
-                if (isFirstSelection2) {
-                    isFirstSelection2 = false
-                    previousSpinner2Index = position
-
-                    if (position != 0) {
-                        val spinner2Values = SpinnerData.getSpinner2Values(currentMode)
-                        addValuesToNumbers(spinner2Values[position])
-                        for (i in 0 until SPINNER_AFFECTED_COUNT) {
-                            currentBonus[i] += spinner2Values[position][i]
-                        }
-                    } else {
-                        val spinner2Values = SpinnerData.getSpinner2Values(currentMode)
-                        for (i in 0 until SPINNER_AFFECTED_COUNT) {
-                            currentBonus[i] += spinner2Values[position][i]
-                        }
+                } else {
+                    val spinner1Values = SpinnerData.getSpinner1Values(currentMode)
+                    for (i in 0 until SPINNER_AFFECTED_COUNT) {
+                        currentBonus[i] = spinner1Values[position][i]
                     }
-
-                    updateAllTitles()
-                    updateButtonAppearance()
-                    updateBackgroundImageBottom()
-                    return
                 }
-                onSpinner2Changed(position)
-            }
 
-            override fun onNothingSelected(parent: AdapterView<*>?) {}
-        }
+                updateAllTitles()
+                updateButtonAppearance()
+                updateBackgroundImage()
+            },
+            onFirstSelection2 = { position ->
+                isFirstSelection2 = false
+                previousSpinner2Index = position
 
-        // ✅ 復元したインデックスを使用
-        spinner1.setSelection(previousSpinner1Index, true)
-        spinner2.setSelection(previousSpinner2Index, true)
+                if (position != 0) {
+                    val spinner2Values = SpinnerData.getSpinner2Values(currentMode)
+                    addValuesToNumbers(spinner2Values[position])
+                    for (i in 0 until SPINNER_AFFECTED_COUNT) {
+                        currentBonus[i] += spinner2Values[position][i]
+                    }
+                } else {
+                    val spinner2Values = SpinnerData.getSpinner2Values(currentMode)
+                    for (i in 0 until SPINNER_AFFECTED_COUNT) {
+                        currentBonus[i] += spinner2Values[position][i]
+                    }
+                }
+
+                updateAllTitles()
+                updateButtonAppearance()
+                updateBackgroundImageBottom()
+            },
+            onSelection1Changed = { position -> onSpinner1Changed(position) },
+            onSelection2Changed = { position -> onSpinner2Changed(position) }
+        )
+
+        val spinnerSet1 = findViewById<View>(R.id.spinnerSet1)
+        val spinnerSet2 = findViewById<View>(R.id.spinnerSet2)
+        val spinnerTitle1 = spinnerSet1.findViewById<TextView>(R.id.spinnerTitle)
+        val spinnerTitle2 = spinnerSet2.findViewById<TextView>(R.id.spinnerTitle)
+
+        manager.attach(spinner1, spinner2, spinnerTitle1, spinnerTitle2, previousSpinner1Index, previousSpinner2Index)
     }
 
 
@@ -530,6 +508,7 @@ class CounterActivity : AppCompatActivity() {
         }
 
         previousSpinner1Index = newPosition
+        viewModel.setSpinnerIndices(previousSpinner1Index, viewModel.spinner2Index)
         updateAllTitles()
         updateButtonAppearance()
         updateBackgroundImage()
@@ -572,6 +551,7 @@ class CounterActivity : AppCompatActivity() {
         }
 
         previousSpinner2Index = newPosition
+        viewModel.setSpinnerIndices(viewModel.spinner1Index, previousSpinner2Index)
         updateAllTitles()
         updateButtonAppearance()
         updateBackgroundImageBottom()
@@ -582,6 +562,7 @@ class CounterActivity : AppCompatActivity() {
         for (i in 0 until SPINNER_AFFECTED_COUNT) {
             currentNumbers[i] += values[i]
             numberTexts[i].text = currentNumbers[i].toString()
+            viewModel.setNumber(i, currentNumbers[i])
         }
     }
 
@@ -590,6 +571,7 @@ class CounterActivity : AppCompatActivity() {
         for (i in 0 until SPINNER_AFFECTED_COUNT) {
             currentNumbers[i] -= values[i]
             numberTexts[i].text = currentNumbers[i].toString()
+            viewModel.setNumber(i, currentNumbers[i])
         }
     }
 
@@ -627,64 +609,34 @@ class CounterActivity : AppCompatActivity() {
 
     // 現在の状態をSharedPreferencesに保存
     private fun saveState() {
-        val prefs = getSharedPreferences("eques_state", MODE_PRIVATE)
-        prefs.edit().apply {
-            putString("MODE", currentMode)
-
-            // ✅ パイロットと機体の選択を保存
-            putInt("SPINNER1_INDEX", spinner1.selectedItemPosition)
-            putInt("SPINNER2_INDEX", spinner2.selectedItemPosition)
-
-            // ✅ パイロットと機体の名前も保存（オプション）
-            val spinner1Items = SpinnerData.getSpinner1Items(currentMode)
-            val spinner2Items = SpinnerData.getSpinner2Items(currentMode)
-            putString("SPINNER1_NAME", spinner1Items[spinner1.selectedItemPosition])
-            putString("SPINNER2_NAME", spinner2Items[spinner2.selectedItemPosition])
-
-            for (i in 0 until COUNTER_COUNT) {
-                putInt("NUMBER_$i", currentNumbers[i])
-            }
-            for (i in 0 until SPINNER_AFFECTED_COUNT) {
-                putInt("BONUS_$i", currentBonus[i])
-            }
-            putBoolean("BOOST1_ACTIVE", isBoost1Active)
-            putBoolean("BOOST2_ACTIVE", isBoost2Active)
-            apply()
-        }
+        viewModel.saveState(this, viewModel.toCounterState())
     }
 
     // SharedPreferencesから状態を復元
     private fun restoreState() {
-        val prefs = getSharedPreferences("eques_state", MODE_PRIVATE)
-        currentMode = prefs.getString("MODE", "mode1") ?: "mode1"
+        val state = viewModel.restoreState(this)
+        viewModel.initializeFromState(state)
 
-        previousSpinner1Index = prefs.getInt("SPINNER1_INDEX", 0)
-        previousSpinner2Index = prefs.getInt("SPINNER2_INDEX", 0)
+        currentMode = viewModel.mode
+        previousSpinner1Index = viewModel.spinner1Index
+        previousSpinner2Index = viewModel.spinner2Index
 
         isFirstSelection1 = false
         isFirstSelection2 = false
 
-        // カウンター値を復元
         for (i in 0 until COUNTER_COUNT) {
-            currentNumbers[i] = prefs.getInt("NUMBER_$i", 0)
+            currentNumbers[i] = viewModel.getNumber(i)
         }
-        // ボーナス値を復元
         for (i in 0 until SPINNER_AFFECTED_COUNT) {
-            currentBonus[i] = prefs.getInt("BONUS_$i", 0)
+            currentBonus[i] = viewModel.getBonus(i)
         }
 
-        // ブースト状態を復元
-        isBoost1Active = prefs.getBoolean("BOOST1_ACTIVE", false)
-        isBoost2Active = prefs.getBoolean("BOOST2_ACTIVE", false)
+        isBoost1Active = viewModel.boost1Active
+        isBoost2Active = viewModel.boost2Active
 
-        // UIを更新
         for (i in 0 until COUNTER_COUNT) {
             numberTexts[i].text = currentNumbers[i].toString()
         }
-
-        // ✅ ViewModel に状態を通知（アニメーション開始）
-        viewModel.setAwakened(isBoost1Active)
-        viewModel.setCritical(isBoost2Active)
 
         updateButtonAppearance()
         updateAllTitles()
