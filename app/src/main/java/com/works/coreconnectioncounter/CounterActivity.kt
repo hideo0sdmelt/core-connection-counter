@@ -285,18 +285,23 @@ class CounterActivity : AppCompatActivity() {
         for (i in 0 until COUNTER_COUNT) {
             numberTexts[i].text = currentNumbers[i].toString()
             plusButtons[i].setOnClickListener {
+                val old = currentNumbers[i]
                 currentNumbers[i]++
                 numberTexts[i].text = currentNumbers[i].toString()
                 viewModel.setNumber(i, currentNumbers[i])
-                // EPが20に達したら通知
+                // EPが19->20になったときだけ通知
                 if (i == EP_INDEX) {
-                    checkEpThreshold()
+                    checkEpThreshold(old, currentNumbers[i])
                 }
             }
             minusButtons[i].setOnClickListener {
+                val old = currentNumbers[i]
                 currentNumbers[i]--
                 numberTexts[i].text = currentNumbers[i].toString()
                 viewModel.setNumber(i, currentNumbers[i])
+                if (i == EP_INDEX) {
+                    checkEpThreshold(old, currentNumbers[i])
+                }
             }
         }
     }
@@ -643,8 +648,8 @@ class CounterActivity : AppCompatActivity() {
     }
 
     // EPが20に達したかチェックして通知
-    private fun checkEpThreshold() {
-        if (currentNumbers[EP_INDEX] >= EP_THRESHOLD) {
+    private fun checkEpThreshold(oldValue: Int, newValue: Int) {
+        if (oldValue < EP_THRESHOLD && newValue >= EP_THRESHOLD) {
             Toast.makeText(
                 this,
                 "EPが${EP_THRESHOLD}に達しました！",
