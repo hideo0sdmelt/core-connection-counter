@@ -240,6 +240,10 @@ class CounterActivity : AppCompatActivity() {
             plusButtons[i].setOnClickListener {
                 currentNumbers[i]++
                 numberTexts[i].text = currentNumbers[i].toString()
+                // EPが20に達したら通知
+                if (i == EP_INDEX) {
+                    checkEpThreshold()
+                }
             }
             minusButtons[i].setOnClickListener {
                 currentNumbers[i]--
@@ -628,6 +632,17 @@ class CounterActivity : AppCompatActivity() {
 
         updateButtonAppearance()
         updateAllTitles()
+    }
+
+    // EPが20に達したかチェックして通知
+    private fun checkEpThreshold() {
+        if (currentNumbers[EP_INDEX] >= EP_THRESHOLD) {
+            Toast.makeText(
+                this,
+                "EPが${EP_THRESHOLD}に達しました！",
+                Toast.LENGTH_SHORT
+            ).show()
+        }
     }
 
 
