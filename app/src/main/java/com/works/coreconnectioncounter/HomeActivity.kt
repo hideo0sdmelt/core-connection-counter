@@ -3,6 +3,7 @@ package com.works.coreconnectioncounter
 import android.content.Intent
 import android.os.Bundle
 import android.widget.ImageView
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
@@ -61,7 +62,11 @@ class HomeActivity : AppCompatActivity() {
             setBackgroundColor(getColor(config.bgColor))
             setTextColor(getColor(R.color.black))
             setOnClickListener {
-                startActivity(Intent(this@HomeActivity, config.navigateTo))
+                if (config.title == "暗躍のナブラ") {
+                    Toast.makeText(this@HomeActivity, "暗躍のナブラ用のデータを入れたい", Toast.LENGTH_SHORT).show()
+                } else {
+                    startActivity(Intent(this@HomeActivity, config.navigateTo))
+                }
             }
         }
     }
