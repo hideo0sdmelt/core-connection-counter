@@ -26,7 +26,8 @@ class SpinnerManager(
         title1: TextView,
         title2: TextView,
         previousSpinner1Index: Int,
-        previousSpinner2Index: Int
+        previousSpinner2Index: Int,
+        callSelectionCallback: Boolean = true
     ) {
         val mode = getMode()
         val spinner1Items = SpinnerData.getSpinner1Items(mode)
@@ -74,7 +75,7 @@ class SpinnerManager(
         }
 
         // 復元されたインデックスで選択
-        spinner1.setSelection(previousSpinner1Index, true)
-        spinner2.setSelection(previousSpinner2Index, true)
+        spinner1.setSelection(previousSpinner1Index, callSelectionCallback)
+        spinner2.setSelection(previousSpinner2Index, callSelectionCallback)
     }
 }

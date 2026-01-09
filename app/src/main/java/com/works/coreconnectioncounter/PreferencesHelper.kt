@@ -15,8 +15,8 @@ data class CounterState(
     val boost2Active: Boolean = false
 )
 
-class PreferencesHelper(context: Context) {
-    private val prefs: SharedPreferences = context.getSharedPreferences("eques_state", Context.MODE_PRIVATE)
+class PreferencesHelper(context: Context, prefsName: String = "eques_state") {
+    private val prefs: SharedPreferences = context.getSharedPreferences(prefsName, Context.MODE_PRIVATE)
 
     fun save(state: CounterState) {
         prefs.edit().apply {
