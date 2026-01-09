@@ -6,6 +6,7 @@ import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.Spinner
 import android.widget.TextView
+import android.widget.Toast
 import androidx.activity.OnBackPressedCallback
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
@@ -20,6 +21,8 @@ class CounterActivity : AppCompatActivity() {
     companion object {
         private const val COUNTER_COUNT = 6
         private const val SPINNER_AFFECTED_COUNT = 3
+        private const val EP_INDEX = 5
+        private const val EP_THRESHOLD = 20
     }
 
     // ✅ ViewBinding と ViewModel を追加
@@ -75,12 +78,20 @@ class CounterActivity : AppCompatActivity() {
             ButtonAnimationUtils.setButtonAwakened(
                 multiplierButton1, isAwakened
             )
+            // 影響を受けるカウンター（近接、狙撃、耐久）にアニメーションを適用
+            ButtonAnimationUtils.setCounterTextsAnimated(
+                numberTexts, SPINNER_AFFECTED_COUNT, isAwakened
+            )
         }
 
         // ✅ 臨界ボタンの状態を購読
         viewModel.isCritical.observe(this) { isCritical ->
             ButtonAnimationUtils.setButtonAwakened(
                 multiplierButton2, isCritical
+            )
+            // 影響を受けるカウンター（近接、狙撃、耐久）にアニメーションを適用
+            ButtonAnimationUtils.setCounterTextsAnimated(
+                numberTexts, SPINNER_AFFECTED_COUNT, isCritical
             )
         }
 
