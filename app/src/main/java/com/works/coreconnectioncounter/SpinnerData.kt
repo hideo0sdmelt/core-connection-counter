@@ -37,6 +37,18 @@ object SpinnerData {
         intArrayOf(5, 5, 0)       // ラーシャ・ドラグノフ 550
     )
 
+    // パイロットごとの背景画像リソースID（画像が存在しない場合は0）
+    // 画像を追加する場合は、drawableフォルダに画像を配置し、ここにR.drawable.画像名を設定
+    val EQUES_PILOT_BACKGROUND_IMAGES = arrayOf(
+        0,  // 選抜パイロット（デフォルト、背景画像なし）
+        R.drawable.pilot_akari,  // 日野アカリ
+        R.drawable.pilot_emilia_hawk,  // エミリア・ホーク
+        R.drawable.pilot_romana_iris,  // ロマーナ・イリス
+        R.drawable.pilot_cleo_patra_elham,  // クレオ&パトラ・エルハーム
+        R.drawable.pilot_gao_fan,  // ガオ・ファン
+        R.drawable.pilot_lasha_dragunov   // ラーシャ・ドラグノフ
+    )
+
 
     val EQUES_MECHA_ITEMS = arrayOf(
         "量産機",
@@ -66,6 +78,18 @@ object SpinnerData {
         intArrayOf(1, 1, 3),      // マフデト 113
         intArrayOf(2, 0, 6),      // 盤古 206
         intArrayOf(7, 5, 3)       // トリグラフ 753
+    )
+
+    // 機体ごとの背景画像リソースID（画像が存在しない場合は0）
+    // 画像を追加する場合は、drawableフォルダに画像を配置し、ここにR.drawable.画像名を設定
+    val EQUES_MECHA_BACKGROUND_IMAGES = arrayOf(
+        0,  // 量産機（デフォルト、背景画像なし）
+        R.drawable.mecha_kannagara,  // カンナガラ三號
+        R.drawable.mecha_supernova,  // SUPERNOVA
+        R.drawable.mecha_er28_keryukeion,  // Er-28++ ケリュケイオン
+        R.drawable.mecha_mafdet,  // マフデト
+        R.drawable.mecha_pangu,  // 盤古
+        R.drawable.mecha_trigraph   // トリグラフ
     )
 
     // ========== Mode2用データ ==========
@@ -135,5 +159,29 @@ object SpinnerData {
 
     fun getSpinner2BoostValues(mode: String): Array<IntArray> {
         return if (mode == "mode2") MODE2_SPINNER2_BOOST_VALUES else EQUES_MECHA_BOOST_VALUES
+    }
+
+    fun getPilotBackgroundImage(mode: String, index: Int): Int {
+        return if (mode == "mode2") {
+            0  // mode2の場合は背景画像なし
+        } else {
+            if (index in EQUES_PILOT_BACKGROUND_IMAGES.indices) {
+                EQUES_PILOT_BACKGROUND_IMAGES[index]
+            } else {
+                0
+            }
+        }
+    }
+
+    fun getMechaBackgroundImage(mode: String, index: Int): Int {
+        return if (mode == "mode2") {
+            0  // mode2の場合は背景画像なし
+        } else {
+            if (index in EQUES_MECHA_BACKGROUND_IMAGES.indices) {
+                EQUES_MECHA_BACKGROUND_IMAGES[index]
+            } else {
+                0
+            }
+        }
     }
 }

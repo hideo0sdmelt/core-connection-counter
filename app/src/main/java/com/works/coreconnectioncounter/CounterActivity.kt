@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.View
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
+import android.widget.ImageView
 import android.widget.Spinner
 import android.widget.TextView
 import android.widget.Toast
@@ -39,6 +40,10 @@ class CounterActivity : AppCompatActivity() {
     private lateinit var spinner2: Spinner
     private lateinit var spinnerTitle1: TextView
     private lateinit var spinnerTitle2: TextView
+
+    // 背景画像
+    private lateinit var backgroundImageTop: ImageView
+    private lateinit var backgroundImageBottom: ImageView
 
     // ブーストボタン
     private lateinit var multiplierButton1: MaterialButton
@@ -111,12 +116,14 @@ class CounterActivity : AppCompatActivity() {
         setupToolbar()
 
         setupSpinnerViews()
+        setupBackgroundImage()
         setupCounterViews()
         setupMultiplierButtons()
 
         restoreState()
         setupSpinners()
         updateAllTitles()
+        updateBackgroundImage()
     }
 
     override fun onPause() {
@@ -223,6 +230,40 @@ class CounterActivity : AppCompatActivity() {
 
         spinnerTitle1.text = SpinnerData.PILOT_TITLE
         spinnerTitle2.text = SpinnerData.MECHA_TITLE
+    }
+
+    // 背景画像を初期化
+    private fun setupBackgroundImage() {
+        backgroundImageTop = findViewById(R.id.backgroundImageTop)
+        backgroundImageBottom = findViewById(R.id.backgroundImageBottom)
+    }
+
+    // 背景画像を更新（パイロット用：上半分）
+    private fun updateBackgroundImageTop() {
+        val imageResId = SpinnerData.getPilotBackgroundImage(currentMode, previousSpinner1Index)
+        if (imageResId != 0) {
+            backgroundImageTop.setImageResource(imageResId)
+            backgroundImageTop.visibility = View.VISIBLE
+        } else {
+            backgroundImageTop.visibility = View.GONE
+        }
+    }
+
+    // 背景画像を更新（機体用：下半分）
+    private fun updateBackgroundImageBottom() {
+        val imageResId = SpinnerData.getMechaBackgroundImage(currentMode, previousSpinner2Index)
+        if (imageResId != 0) {
+            backgroundImageBottom.setImageResource(imageResId)
+            backgroundImageBottom.visibility = View.VISIBLE
+        } else {
+            backgroundImageBottom.visibility = View.GONE
+        }
+    }
+
+    // 背景画像を更新（両方）
+    private fun updateBackgroundImage() {
+        updateBackgroundImageTop()
+        updateBackgroundImageBottom()
     }
 
     // カウンターのビューを初期化
@@ -403,6 +444,7 @@ class CounterActivity : AppCompatActivity() {
 
                     updateAllTitles()
                     updateButtonAppearance()
+                    updateBackgroundImage()
                     return
                 }
                 onSpinner1Changed(position)
@@ -436,6 +478,7 @@ class CounterActivity : AppCompatActivity() {
 
                     updateAllTitles()
                     updateButtonAppearance()
+                    updateBackgroundImageBottom()
                     return
                 }
                 onSpinner2Changed(position)
@@ -489,6 +532,7 @@ class CounterActivity : AppCompatActivity() {
         previousSpinner1Index = newPosition
         updateAllTitles()
         updateButtonAppearance()
+        updateBackgroundImage()
     }
 
     // 機体選択変更時の処理
@@ -530,6 +574,7 @@ class CounterActivity : AppCompatActivity() {
         previousSpinner2Index = newPosition
         updateAllTitles()
         updateButtonAppearance()
+        updateBackgroundImageBottom()
     }
 
     // 値を加算してUIを更新

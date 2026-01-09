@@ -6,6 +6,31 @@
     android:layout_height="match_parent"
     android:background="@color/background_color">
 
+    <!-- 上半分の背景画像（パイロット用） -->
+    <ImageView
+        android:id="@+id/backgroundImageTop"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:scaleType="centerCrop"
+        android:alpha="0.3"
+        android:contentDescription="@string/background_image"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/backgroundImageBottom"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+    <!-- 下半分の背景画像（機体用） -->
+    <ImageView
+        android:id="@+id/backgroundImageBottom"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:scaleType="centerCrop"
+        android:alpha="0.3"
+        android:contentDescription="@string/background_image"
+        app:layout_constraintTop_toBottomOf="@id/backgroundImageTop"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
 
     <!-- 🆕 Toolbar を追加 -->
     <com.google.android.material.appbar.MaterialToolbar

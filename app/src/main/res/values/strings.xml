@@ -11,4 +11,5 @@
     <string name="zero">0</string>
     <string name="title">タイトル(+0)</string>
     <string name="title_with_bonus">%1$s(+%2$d)(+%3$d)</string>
+    <string name="background_image">背景画像</string>
 </resources>
