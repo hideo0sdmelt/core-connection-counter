@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- view_number_set の縮尺（0.0 - 1.0） -->
+    <fraction name="number_set_scale">0.92</fraction>
+
+    <!-- FrameLayout の幅割合（ConstraintLayout の percent） -->
+    <fraction name="number_set_width_percent">0.30</fraction>
+
+    <!-- activity_third の縦縮尺（1.0 が元サイズ） -->
+    <!-- removed: activity_third_height_scale -->
+</resources>

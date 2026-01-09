@@ -53,4 +53,10 @@
     <dimen name="home_button_margin_horizontal">32dp</dimen>
     <dimen name="home_button_margin_top_first">20dp</dimen>
     <dimen name="home_button_margin_top_between">12dp</dimen>
+
+    <!-- Multiplier buttons -->
+    <dimen name="multiplier_button_height">44dp</dimen>
+    <dimen name="multiplier_button_text_size">12sp</dimen>
+    <dimen name="multiplier_button_corner_radius">24dp</dimen>
+    <dimen name="multiplier_button_margin_end">4dp</dimen>
 </resources>

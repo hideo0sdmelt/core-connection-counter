@@ -9,4 +9,10 @@
         <item name="colorPrimary">@color/button_home</item>
     </style>
 
+    <!-- 共通縮尺スタイル（FrameLayout 用） - 値は @fraction/number_set_scale で管理 -->
+    <style name="ScaledFrame">
+        <item name="android:scaleX">@fraction/number_set_scale</item>
+        <item name="android:scaleY">@fraction/number_set_scale</item>
+    </style>
+
 </resources>
